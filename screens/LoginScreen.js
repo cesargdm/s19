@@ -23,6 +23,9 @@ function DefaultTextInput(props) {
   )
 }
 
+const auth = firebase.auth
+const provider = new firebase.auth.FacebookAuthProvider()
+
 class LoginScreen extends Component {
   constructor(props) {
     super(props)
@@ -32,12 +35,15 @@ class LoginScreen extends Component {
       password: '',
       isCreatingAccount: false,
       isWorking: false,
-      isRestoringPassword: false
+      isRestoringPassword: false,
+      user: null
     }
 
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.resetEmail = this.resetEmail.bind(this)
+    this.loginFacebook = this.loginFacebook.bind(this)
+    this.logoutFacebook = this.logoutFacebook.bind(this)
   }
 
   onChange(name, text) {
@@ -48,6 +54,31 @@ class LoginScreen extends Component {
 
   resetEmail() {
 
+  }
+
+  async loginFacebook() {
+    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
+      '147505939330132',
+      { permissions: ['public_profile'] }
+    );
+
+    if (type === 'success') {
+      // Build Firebase credential with the Facebook access token.
+      const credential = firebase.auth.FacebookAuthProvider.credential(token)
+
+      // Sign in with credential from the Facebook user.
+      firebase.auth().signInWithCredential(credential).catch((error) => {
+        // Handle Errors here.
+
+      })
+
+      // Redirect ?
+    }
+  }
+
+  async logoutFacebook(){
+    await auth().signOut()
+    this.setState({user: null})
   }
 
   onSubmit() {
@@ -142,7 +173,7 @@ class LoginScreen extends Component {
               <SocialButton
                 title="Facebook"
                 backgroundColor="#3b5998"
-                onPress={() => {}}
+                onPress={this.loginFacebook}
               />
               <SocialButton
                 title="Twitter"

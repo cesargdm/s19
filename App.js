@@ -15,12 +15,12 @@ import aid from './reducers'
 let store = createStore(aid)
 
 firebase.initializeApp({
-  apiKey: "AIzaSyCOgis5l8cQgIDSRw0xuw-RYhDEDABQSMc",
-  authDomain: "medical-cbf55.firebaseapp.com",
-  databaseURL: "https://medical-cbf55.firebaseio.com",
-  projectId: "medical-cbf55",
-  storageBucket: "medical-cbf55.appspot.com",
-  messagingSenderId: "1000049284751"
+  apiKey: "AIzaSyBW2DnON1SFfQIRWk3fB7kj3I2YjdByHSI",
+  authDomain: "senti-5ca31.firebaseapp.com",
+  databaseURL: "https://senti-5ca31.firebaseio.com",
+  projectId: "senti-5ca31",
+  storageBucket: "senti-5ca31.appspot.com",
+  messagingSenderId: "45207062216"
 })
 
 export default class App extends Component {
