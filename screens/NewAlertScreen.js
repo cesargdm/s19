@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
 import { NavigationActions } from 'react-navigation'
-import { Location } from 'expo'
+import { Location, Permissions } from 'expo'
 
 import Colors from '../constants/Colors'
 import { CloseButton } from '../components'
@@ -26,7 +26,12 @@ class NewAlertScreen extends Component {
   }
 
   componentWillMount() {
-    Location.getCurrentPositionAsync({enableHighAccuracy: true})
+    Permissions.askAsync(Permissions.LOCATION)
+    .then(({status}) => {
+      return status === 'granted'
+      ? Location.getCurrentPositionAsync({enableHighAccuracy: true})
+      : null
+    })
     .then(({coords}) => {
       this.setState({
         currentCoords: coords
@@ -41,6 +46,9 @@ class NewAlertScreen extends Component {
     }
     // Report to firebase
     firebase.database().ref('reports').push(report)
+    .then(() => {
+      this.props.navigation.goBack()
+    })
     console.log(
       this.state.selectedElement,
       this.state.selectedOptions,

@@ -47,19 +47,6 @@ class AlertsScreen extends Component {
 
   onAlarm() {
     this.props.navigation.navigate('NewAlert')
-
-    // this.setState({ showCreateAlert: true })
-    // Permissions.askAsync(Permissions.LOCATION)
-    // .then(({status}) => {
-    //   return status === 'granted'
-    //   ? Location.getCurrentPositionAsync({enableHighAccuracy: true})
-    //   : null
-    // })
-    // .then(({coords}) => {
-    //   const { accuracy, altitude, latitude, longitude } = coords
-    //   console.log({ accuracy, altitude, latitude, longitude })
-    // })
-    // .catch(console.log)
   }
 
   renderItem({item}) {
