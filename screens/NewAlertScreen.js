@@ -6,6 +6,8 @@ import { Location } from 'expo'
 import Colors from '../constants/Colors'
 import { CloseButton } from '../components'
 
+import firebase from 'firebase'
+
 class NewAlertScreen extends Component {
   static navigationOptions = {
     header: null
@@ -33,7 +35,12 @@ class NewAlertScreen extends Component {
   }
 
   sendReport() {
-    // TODO...
+    let report = {
+      options: this.state.selectedOptions,
+      coords: this.state.currentCoords,
+    }
+    // Report to firebase
+    firebase.database().ref('reports').push(report)
     console.log(
       this.state.selectedElement,
       this.state.selectedOptions,
