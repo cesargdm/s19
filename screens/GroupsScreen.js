@@ -6,6 +6,8 @@ class GroupsScreen extends Component {
     header: null,
   }
 
+
+
   constructor(props) {
     super(props)
 
@@ -48,8 +50,14 @@ class GroupsScreen extends Component {
       case 'options':
         return (
           <View style={{padding: 20, paddingTop: 10, paddingBottom: 0, display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-            <View style={{width: 38, height: 38, backgroundColor: "#fff", borderRadius: 19, shadowColor: '#000', shadowOpacity: 0.1, shadowOffset: {width: 0, height: 0}}}/>
-            <View style={{width: 38, height: 38, backgroundColor: "#fff", borderRadius: 19, shadowColor: '#000', shadowOpacity: 0.1, shadowOffset: {width: 0, height: 0}}}/>
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('NewGroup')}
+              style={{width: 38, height: 38, backgroundColor: "#fff", borderRadius: 19, shadowColor: '#000', shadowOpacity: 0.1, shadowOffset: {width: 0, height: 0}}}
+            />
+            <TouchableOpacity
+              onPress={() => this.props.navigation.navigate('NewGroup')}
+              style={{width: 38, height: 38, backgroundColor: "#fff", borderRadius: 19, shadowColor: '#000', shadowOpacity: 0.1, shadowOffset: {width: 0, height: 0}}}
+            />
           </View>
         )
       default:
@@ -82,7 +90,7 @@ class GroupsScreen extends Component {
 
   render() {
     return (
-      <View style={{width: '100%', height: '100%', paddingTop: 20}}>
+      <View style={{width: '100%', height: '100%', paddingTop: 30, backgroundColor: '#f7f7f7'}}>
         <FlatList
           style={{width: '100%', height: '100%', flex: 1 }}
           data={this.state.elements}
