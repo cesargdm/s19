@@ -31,7 +31,7 @@ class LoginScreen extends Component {
     super(props)
 
     this.state = {
-      username: '',
+      email: '',
       password: '',
       isCreatingAccount: false,
       isWorking: false,
@@ -57,24 +57,47 @@ class LoginScreen extends Component {
 
   }
 
-  async facebookLogin() {
-    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
-      '147505939330132',
-      { permissions: ['public_profile'] }
-    );
+   loginFacebook() {
+     Expo.Facebook.logInWithReadPermissionsAsync('147505939330132', { permissions: ['public_profile', 'user_friends'] })
+     .then((response) => {
+       const { type, token } = response
 
-    if (type === 'success') {
-      // Build Firebase credential with the Facebook access token.
-      const credential = firebase.auth.FacebookAuthProvider.credential(token)
+       if (type === 'success') {
+         // Build Firebase credential with the Facebook access token to sign in
+         const credential = firebase.auth.FacebookAuthProvider.credential(token)
 
-      // Sign in with credential from the Facebook user.
-      firebase.auth().signInWithCredential(credential).catch((error) => {
-        // Handle Errors here.
+         // Sign in with credential from the Facebook user to get user information
+         firebase.auth().signInWithCredential(credential)
+         .then((facebookUser) => {
+           let user = {
+             name: facebookUser.displayName,
+             phone: facebookUser.phoneNumber,
+             photo: facebookUser.photoURL
+           }
 
-      })
+           //Post user to database specifying uid
+           firebase.database().ref('users').child(facebookUser.uid).set(user, () => {
+             // Call action for user logged in
+             this.props.login(user)
+           })
+         })
+         .catch((error) => {
+           // Handle Errors here.
+           console.log(error)
+         })
+       }
 
-      // Redirect ?
-    }
+       if (type === 'cancel') {
+         // handle cancel ?
+         console.log("Cancelled");
+       }
+     })
+     .catch((error) => {
+       // Handle strange shit occurring
+       console.log(error)
+     })
+
+
   }
 
   async logoutFacebook(){
@@ -83,29 +106,42 @@ class LoginScreen extends Component {
   }
 
   onSubmit() {
-    const { username, password } = this.state
+    const { email, password } = this.state
 
     this.setState({
       isWorking: true
     })
 
     if (this.state.isCreatingAccount) {
-      firebase.auth().createUserWithEmailAndPassword(username, password)
-      .then(response => {
-        this.setState({
-          isWorking: false
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(firebaseUser => {
+        let user = {
+          email: firebaseUser.email,
+          password: password
+        }
+
+        //Post user to database specifying uid
+        firebase.database().ref('users').child(firebaseUser.uid).set(user, () => {
+          // Call actions for user logged in
+          this.setState({
+            isWorking: false
+          })
+
+          const currentUser = firebase.auth().currentUser
+
+          AsyncStorage.setItem('currentUser', JSON.stringify(currentUser))
+          this.props.login(currentUser)
         })
 
-        const currentUser = firebase.auth().currentUser
-
-        AsyncStorage.setItem('currentUser', JSON.stringify(currentUser))
-        this.props.login(currentUser)
       })
       .catch(error => {
         console.log(error, error.code)
         switch (error.code) {
           case 'auth/email-already-in-use':
             Alert.alert('Usuario existente', 'El correo que introduciste ya fue registrado')
+            break
+          case 'auth/weak-password':
+            Alert.alert('Contraseña débil', 'El password debería tener por lo menos 6 caracteres')
             break
           default:
             Alert.alert('Error al crear cuenta', 'Intenta nuevamente más tarde')
@@ -115,7 +151,7 @@ class LoginScreen extends Component {
         })
       })
     } else {
-      firebase.auth().signInWithEmailAndPassword('cesargdm@icloud.com', 'Macintosh96')
+      firebase.auth().signInWithEmailAndPassword(email, password)
       .then(response => {
         this.setState({
           isWorking: false
@@ -167,49 +203,47 @@ class LoginScreen extends Component {
             </View>
           :
           <View style={{width: '100%', flexGrow: 1, position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{fontSize: 30, fontWeight: '700', marginBottom: 20}}>Senti</Text>
-            {
-              this.state.emailSignup
-              ? <View>
-                  <TouchableOpacity onPress={() => this.setState({ emailSignup: false })}>
-                    <Text>Regresar</Text>
-                  </TouchableOpacity>
-                  <DefaultTextInput
-                    autoCorrect={false}
-                    autoCapitalize="none"
-                    keyboardType="email-address"
-                    onChange={this.onChange}
-                    value={this.state.username}
-                    name="username"
-                    placeholder="Correo electrónico"
-                    style={{marginBottom: 15}}
-                  />
-                  <DefaultTextInput
-                    onChange={this.onChange}
-                    value={this.state.password}
-                    name="password"
-                    placeholder="Contraseña"
-                    style={{marginBottom: 15}}
-                    secureTextEntry
-                  />
-                  <TouchableOpacity onPress={() => this.setState({ emailSignup: false })}>
-                    <Text>Registarme</Text>
-                  </TouchableOpacity>
-                </View>
-              : <View style={{width: '100%', maxWidth: 200, display: 'flex'}}>
-                <SocialButton
-                  title="Facebook"
-                  backgroundColor="#3b5998"
-                  onPress={this.facebookLogin}
-                />
-                {/* <Text>O usa</Text> */}
-                <SocialButton
-                  title="Correo electrónico"
-                  backgroundColor="green"
-                  onPress={(() => this.setState({emailSignup: true}))}
-                />
-              </View>
-            }
+            <Text style={{fontSize: 30, fontWeight: '700'}}>Senti</Text>
+            <Text style={{marginBottom: 30, fontWeight: '600'}}>Registrarse </Text>
+            <View style={{width: '100%', maxWidth: 200, display: 'flex'}}>
+              <SocialButton
+                title="Facebook"
+                backgroundColor="#3b5998"
+                onPress={this.loginFacebook}
+              />
+              <SocialButton
+                title="Twitter"
+                backgroundColor="#1da1f2"
+                onPress={() => {}}
+              />
+              <Text>O usa</Text>
+              <SocialButton
+                title="Correo electrónico"
+                backgroundColor="green"
+                onPress={this.onSubmit}
+              />
+            </View>
+             <View style={{margin: 20}}>
+              <Text>O usa tu correo electrónico</Text>
+            </View>
+            <DefaultTextInput
+              autoCorrect={false}
+              autoCapitalize="none"
+              keyboardType="email-address"
+              onChange={this.onChange}
+              value={this.state.email}
+              name="email"
+              placeholder="Correo electrónico"
+              style={{marginBottom: 15}}
+            />
+            <DefaultTextInput
+              onChange={this.onChange}
+              value={this.state.password}
+              name="password"
+              placeholder="Contraseña"
+              style={{marginBottom: 15}}
+              secureTextEntry
+            />
             {
               this.state.isCreatingAccount
               ? <DefaultTextInput
