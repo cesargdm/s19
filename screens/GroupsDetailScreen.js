@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
+import { Svg } from 'expo'
 
 import Colors from '../constants/Colors'
 import { BackButton } from '../components'
@@ -31,7 +32,10 @@ class GroupsDetailScreen extends Component {
         <ScrollView style={{flex: 1, padding: 20}}>
           <Text style={{fontSize: 38, marginBottom: 10}}>Familia</Text>
           <Text>4 Integrantes</Text>
-          <ScrollView horizontal>
+          <ScrollView
+            style={{marginBottom: 20}}
+            horizontal
+          >
             {
               [0,0,0,0,0].map((member, index) =>
                 <View
@@ -41,7 +45,21 @@ class GroupsDetailScreen extends Component {
                 </View>
               )
             }
+            <View
+              style={{width: 34, height: 34, backgroundColor: '#fff', marginRight: 10, borderRadius: 17, display: 'flex', justifyContent: 'center', alignItems: 'center', borderWidth: 2, borderColor: Colors.tintColor}}
+            >
+              <Svg height={38} width={38}>
+                <Svg.Path
+                  d="M25.92,19a1.41,1.41,0,0,1-1.41,1.41h-4.1V24.5a1.41,1.41,0,0,1-2.82,0V20.42H13.51a1.42,1.42,0,1,1,0-2.83h4.08V13.5a1.41,1.41,0,0,1,2.82,0v4.09h4.1A1.42,1.42,0,0,1,25.92,19Z"
+                  fill={Colors.tintColor}
+                />
+              </Svg>
+            </View>
           </ScrollView>
+          <Text>Kit de supervivencia</Text>
+          <View style={{width: '100%', height: 10, backgroundColor: '#ddd', borderRadius: 5, overflow: 'hidden'}}>
+            <View style={{width: `${70 * 100}%`, height: '100%', backgroundColor: '#654BC1', borderRadius: 5}}></View>
+          </View>
         </ScrollView>
       </View>
     )

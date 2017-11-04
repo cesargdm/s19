@@ -125,7 +125,7 @@ class AlertsScreen extends Component {
 
     return (
       <FlatList
-        style={{width: '100%', height: '100%', marginTop: 30, paddingTop: 10, paddingBottom: 30}}
+        style={{width: '100%', height: '100%', marginTop: 30, paddingTop: 10}}
         data={this.state.elements}
         extraData={this.state.elements}
         keyExtractor={element => element._id}
