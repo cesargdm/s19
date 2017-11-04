@@ -57,7 +57,7 @@ class RootApp extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = {
   container: {
     flex: 1,
     backgroundColor: '#fff',
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     height: 24,
     backgroundColor: 'rgba(0,0,0,0.2)',
   },
-})
+}
 
 function mapStateToProps(state) {
   return {
