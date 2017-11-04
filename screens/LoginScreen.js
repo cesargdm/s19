@@ -43,7 +43,7 @@ class LoginScreen extends Component {
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.resetEmail = this.resetEmail.bind(this)
-    this.loginFacebook = this.loginFacebook.bind(this)
+    this.facebookLogin = this.facebookLogin.bind(this)
     this.logoutFacebook = this.logoutFacebook.bind(this)
   }
 
@@ -57,7 +57,7 @@ class LoginScreen extends Component {
 
   }
 
-  async loginFacebook() {
+  async facebookLogin() {
     const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync(
       '147505939330132',
       { permissions: ['public_profile'] }
@@ -134,7 +134,6 @@ class LoginScreen extends Component {
         })
       })
     }
-
   }
 
   render() {
@@ -168,47 +167,49 @@ class LoginScreen extends Component {
             </View>
           :
           <View style={{width: '100%', flexGrow: 1, position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{fontSize: 30, fontWeight: '700'}}>Senti</Text>
-            <Text style={{marginBottom: 30, fontWeight: '600'}}>Iniciar sesión</Text>
-            <View style={{width: '100%', maxWidth: 200, display: 'flex'}}>
-              <SocialButton
-                title="Facebook"
-                backgroundColor="#3b5998"
-                onPress={this.loginFacebook}
-              />
-              <SocialButton
-                title="Twitter"
-                backgroundColor="#1da1f2"
-                onPress={() => {}}
-              />
-              <Text>O usa</Text>
-              <SocialButton
-                title="Correo electrónico"
-                backgroundColor="green"
-                onPress={(() => this.setState({emailSignup: true}))}
-              />
-            </View>
-            {/* <View style={{margin: 20}}>
-              <Text>O usa tu correo electrónico</Text>
-            </View>
-            <DefaultTextInput
-              autoCorrect={false}
-              autoCapitalize="none"
-              keyboardType="email-address"
-              onChange={this.onChange}
-              value={this.state.username}
-              name="username"
-              placeholder="Correo electrónico"
-              style={{marginBottom: 15}}
-            />
-            <DefaultTextInput
-              onChange={this.onChange}
-              value={this.state.password}
-              name="password"
-              placeholder="Contraseña"
-              style={{marginBottom: 15}}
-              secureTextEntry
-            /> */}
+            <Text style={{fontSize: 30, fontWeight: '700', marginBottom: 20}}>Senti</Text>
+            {
+              this.state.emailSignup
+              ? <View>
+                  <TouchableOpacity onPress={() => this.setState({ emailSignup: false })}>
+                    <Text>Regresar</Text>
+                  </TouchableOpacity>
+                  <DefaultTextInput
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                    keyboardType="email-address"
+                    onChange={this.onChange}
+                    value={this.state.username}
+                    name="username"
+                    placeholder="Correo electrónico"
+                    style={{marginBottom: 15}}
+                  />
+                  <DefaultTextInput
+                    onChange={this.onChange}
+                    value={this.state.password}
+                    name="password"
+                    placeholder="Contraseña"
+                    style={{marginBottom: 15}}
+                    secureTextEntry
+                  />
+                  <TouchableOpacity onPress={() => this.setState({ emailSignup: false })}>
+                    <Text>Registarme</Text>
+                  </TouchableOpacity>
+                </View>
+              : <View style={{width: '100%', maxWidth: 200, display: 'flex'}}>
+                <SocialButton
+                  title="Facebook"
+                  backgroundColor="#3b5998"
+                  onPress={this.facebookLogin}
+                />
+                {/* <Text>O usa</Text> */}
+                <SocialButton
+                  title="Correo electrónico"
+                  backgroundColor="green"
+                  onPress={(() => this.setState({emailSignup: true}))}
+                />
+              </View>
+            }
             {
               this.state.isCreatingAccount
               ? <DefaultTextInput
@@ -232,9 +233,9 @@ class LoginScreen extends Component {
                   <Text style={{fontSize: 13, fontWeight: '500', color: Colors.tintColor}}>Olvidé mi contraseña</Text>
                 </TouchableOpacity>
               }
-              <TouchableOpacity onPress={() => this.setState(({isCreatingAccount}) => ({ isCreatingAccount: !isCreatingAccount }))}>
+              {/* <TouchableOpacity onPress={() => this.setState(({isCreatingAccount}) => ({ isCreatingAccount: !isCreatingAccount }))}>
                 <Text style={{fontSize: 13, fontWeight: '500', color: Colors.tintColor}}>{ this.state.isCreatingAccount ? 'Ya tengo cuenta, iniciar sesión' : 'No tengo cuenta' }</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
         }
