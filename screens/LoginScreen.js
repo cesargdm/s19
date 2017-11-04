@@ -64,6 +64,10 @@ class LoginScreen extends Component {
      .then((response) => {
        const { type, token } = response
 
+       this.setState({
+         isWorking: true
+       })
+
        if (type === 'success') {
          // Build Firebase credential with the Facebook access token to sign in
          const credential = firebase.auth.FacebookAuthProvider.credential(token)
@@ -80,6 +84,9 @@ class LoginScreen extends Component {
 
            //Post user to database specifying uid
            firebase.database().ref('users').child('fuid-'+ facebookUser.uid).set(user, () => {
+             this.setState({
+               isWorking: true
+             })
              // Call action for user logged in
              AsyncStorage.setItem('credentials', JSON.stringify(user))
              this.props.setCredentials(user)
@@ -88,6 +95,9 @@ class LoginScreen extends Component {
          .catch((error) => {
            // Handle Errors here.
            console.log(error)
+           this.setState({
+             isWorking: false
+           })
          })
        }
 
@@ -299,10 +309,10 @@ class LoginScreen extends Component {
                   : null
                 }
               </View>
-              {/* {
+              {
                 this.state.isWorking
                 && <ActivityIndicator />
-              } */}
+              }
               </KeyboardAvoidingView>
               <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-around', width: '100%', position: 'absolute', bottom: 0, marginBottom: 20, left: 0, right: 0}}>
                 {
