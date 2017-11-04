@@ -57,8 +57,7 @@ export default TabNavigator(
     tabBarOptions: {
       activeTintColor: Colors.tintColor,
       style: {
-        backgroundColor: '#fff',
-        border: null
+        backgroundColor: '#fff'
       }
     },
     animationEnabled: false,

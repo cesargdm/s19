@@ -34,7 +34,7 @@ class GroupsScreen extends Component {
           percentage: 0.92,
         },
         {
-          _id: '23rd324d3x',
+          _id: '23rd3d3T3s',
           title: 'Empresa',
           members: ['3dasdads','d32dasdasd','dasdasdasd'],
           percentage: 0.92,
