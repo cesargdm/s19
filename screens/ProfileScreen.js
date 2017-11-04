@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { FlatList, Text, View, TouchableOpacity } from 'react-native'
+import { ImagePicker } from 'expo'
 
 class ProfileScreen extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class ProfileScreen extends Component {
     }
 
     this.selectProfilePicture = this.selectProfilePicture.bind(this)
-
+this.renderItem = this.renderItem.bind(this)
   }
 
   async selectProfilePicture() {
@@ -22,10 +23,8 @@ class ProfileScreen extends Component {
       aspect: [4, 3],
     })
 
-    console.log(result)
-
     if (!result.cancelled) {
-      this.setState({ image: result.uri });
+      this.setState({ image: result.uri })
     }
   }
 
@@ -37,7 +36,7 @@ class ProfileScreen extends Component {
           <View style={{width: '100%', height: 130, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 40}}>
             <TouchableOpacity
               style={{width: 90, height: 90, backgroundColor: '#ccc', borderRadius: 45}}
-              onPress={this.selectProfilePicture}
+              onPress={() => this.selectProfilePicture()}
 
             >
           </TouchableOpacity>
