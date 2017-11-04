@@ -57,34 +57,47 @@ class LoginScreen extends Component {
 
   }
 
-  async loginFacebook() {
-    const { type, token } = await Expo.Facebook.logInWithReadPermissionsAsync('147505939330132', { permissions: ['public_profile', 'user_friends'] })
+   loginFacebook() {
+     Expo.Facebook.logInWithReadPermissionsAsync('147505939330132', { permissions: ['public_profile', 'user_friends'] })
+     .then((response) => {
+       const { type, token } = response
+
+       if (type === 'success') {
+         // Build Firebase credential with the Facebook access token to sign in
+         const credential = firebase.auth.FacebookAuthProvider.credential(token)
+
+         // Sign in with credential from the Facebook user to get user information
+         firebase.auth().signInWithCredential(credential)
+         .then((facebookUser) => {
+           let user = {
+             name: facebookUser.displayName,
+             phone: facebookUser.phoneNumber,
+             photo: facebookUser.photoURL
+           }
+
+           //Post user to database specifying uid
+           firebase.database().ref('users').child(facebookUser.uid).set(user, () => {
+             // Call action for user logged in
+             this.props.login(user)
+           })
+         })
+         .catch((error) => {
+           // Handle Errors here.
+           console.log(error)
+         })
+       }
+
+       if (type === 'cancel') {
+         // handle cancel ?
+         console.log("Cancelled");
+       }
+     })
+     .catch((error) => {
+       // Handle strange shit occurring
+       console.log(error)
+     })
 
 
-    if (type === 'success') {
-      // Build Firebase credential with the Facebook access token to sign in
-      const credential = firebase.auth.FacebookAuthProvider.credential(token)
-
-      // Sign in with credential from the Facebook user to get user information
-      firebase.auth().signInWithCredential(credential)
-      .then((facebookUser) => {
-        let user = {
-          name: facebookUser.displayName,
-          phone: facebookUser.phoneNumber,
-          photo: facebookUser.photoURL
-        }
-
-        //Post user to database specifying uid
-        firebase.database().ref('users').child(facebookUser.uid).set(user, () => {
-          // Call action for user logged in
-          this.props.login(user)
-        })
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        console.log(error)
-      })
-    }
   }
 
   async logoutFacebook(){
