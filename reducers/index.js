@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native'
 import { combineReducers } from 'redux'
 
-function auth(state = { isLoggedIn: true }, action) {
+function auth(state = { isLoggedIn: false }, action) {
   switch (action.type) {
     case 'LOGIN':
       return {

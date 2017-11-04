@@ -12,7 +12,7 @@ import * as firebase from 'firebase'
 import RootApp from './RootApp.js'
 import aid from './reducers'
 
-let store = createStore(aid)
+const store = createStore(aid)
 
 firebase.initializeApp({
   apiKey: "AIzaSyBW2DnON1SFfQIRWk3fB7kj3I2YjdByHSI",
