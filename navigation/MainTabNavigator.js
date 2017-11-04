@@ -51,9 +51,15 @@ export default TabNavigator(
         );
       },
     }),
-    headerMode: 'screen',
+    // headerMode: 'screen',
     tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',
+    tabBarOptions: {
+      activeTintColor: Colors.tintColor,
+      style: {
+        backgroundColor: '#fff'
+      }
+    },
     animationEnabled: false,
     swipeEnabled: false
   }

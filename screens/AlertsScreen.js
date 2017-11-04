@@ -4,19 +4,8 @@ import Colors from '../constants/Colors'
 import { View, Text, TouchableOpacity, FlatList } from 'react-native'
 
 class AlertsScreen extends Component {
-
-  static navigationOptions({navigation}) {
-    const { params = {} } = navigation.state
-
-    return {
-      headerRight: (
-        <TouchableOpacity
-          style={{backgroundColor: 'red', padding: 15, paddingTop: 5, paddingBottom: 5, borderRadius: 5, marginRight: 10}}
-          onPress={() => params.onAlarm()}>
-          <Text style={{fontWeight: '600', color: '#fff'}}>Alerta</Text>
-        </TouchableOpacity>
-      )
-    }
+  static navigationOptions = {
+    header: null,
   }
 
   constructor(props) {
@@ -25,6 +14,9 @@ class AlertsScreen extends Component {
     this.state = {
       showCreateAlert: false,
       elements: [
+        {
+          type: 'header'
+        },
         {
           type: '000',
           value: 234,
@@ -67,6 +59,17 @@ class AlertsScreen extends Component {
   }
 
   renderItem({item}) {
+    if (item.type === 'header')
+    return (
+      <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', marginTop: 20, marginBottom: 10}}>
+        <TouchableOpacity
+          style={{backgroundColor: 'red', padding: 15, paddingLeft: 30, paddingTop: 5, paddingBottom: 5, borderRadius: 15, marginRight: 10, shadowColor: 'red', shadowOpacity: 0.7, shadowOffset: {width: 0, height: 0}}}
+          onPress={() => params.onAlarm()}>
+          <Text style={{fontWeight: '600', color: '#fff'}}>Alerta</Text>
+        </TouchableOpacity>
+      </View>
+    )
+
     return (
       <View style={{width: '100%', height: 100, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 10}}>
         <View style={{width: '100%', height: '100%', borderRadius: 10, backgroundColor: '#fff', display: 'flex', flexDirection: 'row', alignItems: 'center', padding: 20, justifyContent: 'space-between', shadowColor: '#000', shadowOpacity: 0.1, shadowOffset: {width: 0, height: 0}}}>
@@ -89,7 +92,7 @@ class AlertsScreen extends Component {
 
     return (
       <FlatList
-        style={{width: '100%', height: '100%', paddingTop: 10}}
+        style={{width: '100%', height: '100%', marginTop: 30}}
         data={this.state.elements}
         extraData={this.state.elements}
         keyExtractor={element => element._id}
