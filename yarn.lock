@@ -1649,6 +1649,10 @@ escodegen@^1.6.1:
   optionalDependencies:
     source-map "~0.5.6"
 
+eslint-plugin-react-native@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react-native/-/eslint-plugin-react-native-3.1.0.tgz#03f95f959bff7a8267b5472cb87d010e346f7224"
+
 eslint-plugin-react@^7.4.0:
   version "7.4.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react/-/eslint-plugin-react-7.4.0.tgz#300a95861b9729c087d362dd64abcc351a74364a"
@@ -2413,6 +2417,10 @@ inquirer@^3.0.6:
     string-width "^2.1.0"
     strip-ansi "^4.0.0"
     through "^2.3.6"
+
+install@^0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/install/-/install-0.10.1.tgz#1c7b53c8dd7335ef534c2648de28f599df1bdd97"
 
 invariant@^2.0.0, invariant@^2.2.2:
   version "2.2.2"

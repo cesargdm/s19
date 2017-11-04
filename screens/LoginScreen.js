@@ -43,7 +43,7 @@ class LoginScreen extends Component {
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.resetEmail = this.resetEmail.bind(this)
-    this.loginFacebook = this.loginFacebook.bind(this)
+    this.facebookLogin = this.facebookLogin.bind(this)
     this.logoutFacebook = this.logoutFacebook.bind(this)
   }
 
@@ -170,7 +170,6 @@ class LoginScreen extends Component {
         })
       })
     }
-
   }
 
   render() {
@@ -268,9 +267,9 @@ class LoginScreen extends Component {
                   <Text style={{fontSize: 13, fontWeight: '500', color: Colors.tintColor}}>Olvidé mi contraseña</Text>
                 </TouchableOpacity>
               }
-              <TouchableOpacity onPress={() => this.setState(({isCreatingAccount}) => ({ isCreatingAccount: !isCreatingAccount }))}>
+              {/* <TouchableOpacity onPress={() => this.setState(({isCreatingAccount}) => ({ isCreatingAccount: !isCreatingAccount }))}>
                 <Text style={{fontSize: 13, fontWeight: '500', color: Colors.tintColor}}>{ this.state.isCreatingAccount ? 'Ya tengo cuenta, iniciar sesión' : 'No tengo cuenta' }</Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
         }

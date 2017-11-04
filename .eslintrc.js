@@ -15,9 +15,14 @@ module.exports = {
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "react-native"
     ],
     "rules": {
+      "react-native/no-unused-styles": 2,
+      "react-native/split-platform-components": 2,
+      "react-native/no-inline-styles": 2,
+      "react-native/no-color-literals": 2,
         "react/jsx-uses-vars": [2],
         "accessor-pairs": "error",
         "array-bracket-newline": "off",

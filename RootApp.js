@@ -45,7 +45,7 @@ class RootApp extends Component {
 
   render() {
     return (
-      !this.props.auth || !this.props.auth.isLoggedIn
+      false
       ? <LoginScreen />
       : <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
