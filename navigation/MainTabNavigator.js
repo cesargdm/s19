@@ -6,20 +6,21 @@ import { TabNavigator, TabBarBottom } from 'react-navigation';
 import Colors from '../constants/Colors';
 
 import GroupsScreen from '../screens/GroupsScreen'
-import AlertsNavigation from './AlertsNavigation'
+import AlertsScreen from '../screens/AlertsScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 
 export default TabNavigator(
   {
     Groups: {
-      screen: GroupsScreen,
+      screen: GroupsScreen
     },
     Alerts: {
-      screen: AlertsNavigation,
+      screen: AlertsScreen,
+      header: null
     },
     Profile: {
       screen: ProfileScreen,
-    },
+    }
   },
   {
     navigationOptions: ({ navigation }) => ({
@@ -50,9 +51,10 @@ export default TabNavigator(
         );
       },
     }),
+    headerMode: 'screen',
     tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',
     animationEnabled: false,
-    swipeEnabled: false,
+    swipeEnabled: false
   }
 );

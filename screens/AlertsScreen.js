@@ -81,8 +81,7 @@ class AlertsScreen extends Component {
   }
 
   render() {
-    if (this.state.showCreateAlert)
-    return (
+    if (this.state.showCreateAlert) return (
       <View style={{position: 'absolute', top: 0}}>
         <Text></Text>
       </View>
