@@ -4,6 +4,7 @@ import { StackNavigator } from 'react-navigation';
 
 import NewAlertScreen from '../screens/NewAlertScreen'
 import NewGroupScreen from '../screens/NewGroupScreen'
+import NotificationsScreen from '../screens/NotificationsScreen'
 import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
 
@@ -20,6 +21,9 @@ const RootStackNavigator = StackNavigator(
     },
     NewGroup: {
       screen: NewGroupScreen
+    },
+    Notifications: {
+      screen: NotificationsScreen
     }
   },
   {

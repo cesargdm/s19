@@ -6,17 +6,17 @@ import { TabNavigator, TabBarBottom } from 'react-navigation';
 import Colors from '../constants/Colors';
 
 import GroupsScreen from '../screens/GroupsScreen'
+import GroupsNavigation from './GroupsNavigation'
 import AlertsScreen from '../screens/AlertsScreen'
 import ProfileScreen from '../screens/ProfileScreen'
 
 export default TabNavigator(
   {
     Groups: {
-      screen: GroupsScreen
+      screen: GroupsNavigation
     },
     Alerts: {
-      screen: AlertsScreen,
-      header: null
+      screen: AlertsScreen
     },
     Profile: {
       screen: ProfileScreen,
