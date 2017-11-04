@@ -11,6 +11,13 @@ export function logout() {
   }
 }
 
+export function setCredentials(user) {
+  console.log('SET CREDENTIAL')
+  return {
+    type: 'SET_CREDENTIALS',
+    user
+  }
+}
 
 export function setUser(user) {
   return {

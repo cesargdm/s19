@@ -13,7 +13,7 @@ function auth(state = { isLoggedIn: false }, action) {
         user: null,
         isLoggedIn: false
       }
-    case 'SET_USER':
+    case 'SET_CREDENTIALS':
       return {
         user: action.user,
         isLoggedIn: true

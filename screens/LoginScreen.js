@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Svg } from 'expo'
 import firebase from 'firebase'
 
-import { login } from '../actions'
+import { setCredentials } from '../actions'
 import Colors from '../constants/Colors'
 import { SocialButton } from '../components'
 
@@ -73,14 +73,15 @@ class LoginScreen extends Component {
            let user = {
              name: facebookUser.displayName,
              phone: facebookUser.phoneNumber,
-             photo: facebookUser.photoURL
+             photo: facebookUser.photoURL,
+             uid: 'fuid-' + facebookUser.uid
            }
 
            //Post user to database specifying uid
-           firebase.database().ref('users').child(facebookUser.uid).set(user, () => {
+           firebase.database().ref('users').child('fuid-'+ facebookUser.uid).set(user, () => {
              // Call action for user logged in
              AsyncStorage.setItem('credentials', JSON.stringify(user))
-             this.props.login(user)
+             this.props.setCredentials(user)
            })
          })
          .catch((error) => {
@@ -137,7 +138,6 @@ class LoginScreen extends Component {
 
       })
       .catch(error => {
-        console.log(error, error.code)
         switch (error.code) {
           case 'auth/email-already-in-use':
             Alert.alert('Usuario existente', 'El correo que introduciste ya fue registrado')
@@ -325,8 +325,8 @@ function mapStateToProps({credentials}) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    login: (user) => {
-      dispatch(login(user))
+    setCredentials: (user) => {
+      dispatch(setCredentials(user))
     }
   }
 }

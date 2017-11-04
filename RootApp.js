@@ -11,41 +11,32 @@ import {
 import { connect } from 'react-redux'
 import * as firebase from 'firebase'
 
-import { logout } from './actions'
+import { logout, setCredentials } from './actions'
 import LoginScreen from './screens/LoginScreen'
 import RootNavigation from './navigation/RootNavigation'
 
 class RootApp extends Component {
-  constructor(props) {
-    super(props)
-
-    this.setUser = this.setUser.bind(this)
-  }
-
   componentWillMount() {
-    this.setUser()
-  }
-
-  setUser() {
-    AsyncStorage.getItem('currentUser')
+    AsyncStorage.getItem('credentials')
     .then(userString => {
-      console.log({userstring})
       if (!userString) {
         this.props.logout()
       }
 
       const user = JSON.parse(userString)
-      this.props.setUser(user)
+
+      console.log('USER', user)
+
+      this.props.setCredentials({...user, isLoggedIn: true})
     })
     .catch(() => {
-      console.log('No user')
       this.props.logout()
     })
   }
 
   render() {
     return (
-      false
+      !this.props.auth.isLoggedIn
       ? <LoginScreen />
       : <View style={styles.container}>
         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
@@ -79,8 +70,8 @@ function mapDispatchToProps(dispatch) {
     logout: () => {
       dispatch(logout())
     },
-    setUser: (user) => {
-      dispatch(setUser(user))
+    setCredentials: (user) => {
+      dispatch(setCredentials(user))
     }
   }
 }

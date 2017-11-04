@@ -27,7 +27,7 @@ class ProfileScreen extends Component {
     super(props)
 
     this.state = {
-      photo: '',
+      photo: this.props.user && this.props.user.phone,
       tags: [
         {
           title: 'Paramédico'
@@ -131,6 +131,7 @@ class ProfileScreen extends Component {
       return (
           <View style={{width: '100%', height: 220, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 40}}>
             <Text>Título</Text>
+            <Text>{JSON.stringify(this.props.auth)}</Text>
             <Text style={{fontWeight: '700', fontSize: 20, color: Colors.tintColor, marginBottom: 10}}>Rescatista</Text>
             <TouchableOpacity
               style={{width: 100, height: 100, backgroundColor: '#ccc', borderRadius: 50}}
@@ -158,7 +159,7 @@ class ProfileScreen extends Component {
   }
 }
 
-function mapStateToProps({ auth }) {
+function mapStateToProps({auth}) {
   return {
     auth
   }
