@@ -37,7 +37,8 @@ class ProfileScreen extends Component {
           <View style={{width: '100%', height: 130, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 40}}>
             <TouchableOpacity
               style={{width: 90, height: 90, backgroundColor: '#ccc', borderRadius: 45}}
-              onPress={() => this.selectProfilePicture}
+              onPress={this.selectProfilePicture}
+
             >
           </TouchableOpacity>
         </View>

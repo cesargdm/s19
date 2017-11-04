@@ -31,7 +31,7 @@ class LoginScreen extends Component {
     super(props)
 
     this.state = {
-      username: '',
+      email: '',
       password: '',
       isCreatingAccount: false,
       isWorking: false,
@@ -106,29 +106,42 @@ class LoginScreen extends Component {
   }
 
   onSubmit() {
-    const { username, password } = this.state
+    const { email, password } = this.state
 
     this.setState({
       isWorking: true
     })
 
     if (this.state.isCreatingAccount) {
-      firebase.auth().createUserWithEmailAndPassword(username, password)
-      .then(response => {
-        this.setState({
-          isWorking: false
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+      .then(firebaseUser => {
+        let user = {
+          email: firebaseUser.email,
+          password: password
+        }
+
+        //Post user to database specifying uid
+        firebase.database().ref('users').child(firebaseUser.uid).set(user, () => {
+          // Call actions for user logged in
+          this.setState({
+            isWorking: false
+          })
+
+          const currentUser = firebase.auth().currentUser
+
+          AsyncStorage.setItem('currentUser', JSON.stringify(currentUser))
+          this.props.login(currentUser)
         })
 
-        const currentUser = firebase.auth().currentUser
-
-        AsyncStorage.setItem('currentUser', JSON.stringify(currentUser))
-        this.props.login(currentUser)
       })
       .catch(error => {
         console.log(error, error.code)
         switch (error.code) {
           case 'auth/email-already-in-use':
             Alert.alert('Usuario existente', 'El correo que introduciste ya fue registrado')
+            break
+          case 'auth/weak-password':
+            Alert.alert('Contraseña débil', 'El password debería tener por lo menos 6 caracteres')
             break
           default:
             Alert.alert('Error al crear cuenta', 'Intenta nuevamente más tarde')
@@ -138,7 +151,7 @@ class LoginScreen extends Component {
         })
       })
     } else {
-      firebase.auth().signInWithEmailAndPassword('cesargdm@icloud.com', 'Macintosh96')
+      firebase.auth().signInWithEmailAndPassword(email, password)
       .then(response => {
         this.setState({
           isWorking: false
@@ -192,7 +205,7 @@ class LoginScreen extends Component {
           :
           <View style={{width: '100%', flexGrow: 1, position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
             <Text style={{fontSize: 30, fontWeight: '700'}}>Senti</Text>
-            <Text style={{marginBottom: 30, fontWeight: '600'}}>Iniciar sesión</Text>
+            <Text style={{marginBottom: 30, fontWeight: '600'}}>Registrarse </Text>
             <View style={{width: '100%', maxWidth: 200, display: 'flex'}}>
               <SocialButton
                 title="Facebook"
@@ -208,10 +221,10 @@ class LoginScreen extends Component {
               <SocialButton
                 title="Correo electrónico"
                 backgroundColor="green"
-                onPress={(() => this.setState({emailSignup: true}))}
+                onPress={this.onSubmit}
               />
             </View>
-            {/* <View style={{margin: 20}}>
+             <View style={{margin: 20}}>
               <Text>O usa tu correo electrónico</Text>
             </View>
             <DefaultTextInput
@@ -219,8 +232,8 @@ class LoginScreen extends Component {
               autoCapitalize="none"
               keyboardType="email-address"
               onChange={this.onChange}
-              value={this.state.username}
-              name="username"
+              value={this.state.email}
+              name="email"
               placeholder="Correo electrónico"
               style={{marginBottom: 15}}
             />
@@ -231,7 +244,7 @@ class LoginScreen extends Component {
               placeholder="Contraseña"
               style={{marginBottom: 15}}
               secureTextEntry
-            /> */}
+            />
             {
               this.state.isCreatingAccount
               ? <DefaultTextInput
