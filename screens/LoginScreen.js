@@ -79,6 +79,7 @@ class LoginScreen extends Component {
            //Post user to database specifying uid
            firebase.database().ref('users').child(facebookUser.uid).set(user, () => {
              // Call action for user logged in
+             AsyncStorage.setItem('credentials', JSON.stringify(user))
              this.props.login(user)
            })
          })
@@ -130,7 +131,7 @@ class LoginScreen extends Component {
 
           const currentUser = firebase.auth().currentUser
 
-          AsyncStorage.setItem('currentUser', JSON.stringify(currentUser))
+          AsyncStorage.setItem('credentials', JSON.stringify(currentUser))
           this.props.login(currentUser)
         })
 
@@ -160,7 +161,7 @@ class LoginScreen extends Component {
 
         const currentUser = firebase.auth().currentUser
 
-        AsyncStorage.setItem('currentUser', JSON.stringify(currentUser))
+        AsyncStorage.setItem('credentials', JSON.stringify(currentUser))
         this.props.login(currentUser)
       })
       .catch(error => {

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { FlatList, Text, View, TouchableOpacity, Switch} from 'react-native'
 import { ImagePicker } from 'expo'
+import { connect } from 'react-redux'
+
 
 import Colors from '../constants/Colors'
 
@@ -25,6 +27,7 @@ class ProfileScreen extends Component {
     super(props)
 
     this.state = {
+      photo: '',
       tags: [
         {
           title: 'Paramédico'
@@ -49,18 +52,21 @@ class ProfileScreen extends Component {
     }
 
     this.selectProfilePicture = this.selectProfilePicture.bind(this)
-this.renderItem = this.renderItem.bind(this)
+    this.renderItem = this.renderItem.bind(this)
   }
 
-  async selectProfilePicture() {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-      aspect: [4, 3],
+  selectProfilePicture() {
+    ImagePicker.launchImageLibraryAsync({allowsEditing: true, aspect: [4, 3]})
+    .then((result) => {
+      if (!result.cancelled) {
+        this.setState({ photo: result.uri })
+      //  firebase.database().ref('users').child()update(updates)
+      }
     })
-
-    if (!result.cancelled) {
-      this.setState({ image: result.uri })
-    }
+    .catch((error) => {
+      // Dumb catch
+      console.log(error)
+    })
   }
 
   renderItem({item}) {
@@ -152,4 +158,18 @@ this.renderItem = this.renderItem.bind(this)
   }
 }
 
-export default ProfileScreen
+function mapStateToProps({ auth }) {
+  return {
+    auth
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    login: (user) => {
+      dispatch(login(user))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProfileScreen)
