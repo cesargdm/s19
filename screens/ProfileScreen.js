@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import { FlatList, Text, View, TouchableOpacity, Switch} from 'react-native'
+import { FlatList, Text, View, TouchableOpacity, Switch, Image} from 'react-native'
 import { ImagePicker } from 'expo'
 import { connect } from 'react-redux'
 
-
+import { logout } from '../actions'
 import Colors from '../constants/Colors'
 
 function ProfileElement(props) {
@@ -129,16 +129,27 @@ class ProfileScreen extends Component {
       case 'profile':
       default:
       return (
-          <View style={{width: '100%', height: 220, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 40}}>
+          <View style={{width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 40, paddingTop: 0}}>
+            <View style={{width: '100%', display: 'flex', justifyContent: 'space-between', flexDirection: 'column'}}>
+              <TouchableOpacity
+                onPress={this.props.logout}
+                style={{width: 50, height: 50, borderRadius: 25, shadowColor: '#000', shadowOpacity: 0.1, shadowOffset: {width: 0, height: 0}}}
+              >
+                <Text>S</Text>
+              </TouchableOpacity>
+            </View>
             <Text>Título</Text>
-            <Text>{JSON.stringify(this.props.auth)}</Text>
             <Text style={{fontWeight: '700', fontSize: 20, color: Colors.tintColor, marginBottom: 10}}>Rescatista</Text>
             <TouchableOpacity
-              style={{width: 100, height: 100, backgroundColor: '#ccc', borderRadius: 50}}
+              style={{width: 100, height: 100, backgroundColor: '#ccc', borderRadius: 50, overflow: 'hidden'}}
               onPress={() => this.selectProfilePicture()}
             >
+              <Image
+                style={{width: '100%', height: '100%'}}
+                source={{uri: this.props.auth && this.props.auth.user && this.props.auth.user.photo}}
+              />
           </TouchableOpacity>
-          <Text style={{fontWeight: '800', marginTop: 20, fontSize: 22}}>Luis Octavio Gómez</Text>
+          <Text style={{fontWeight: '800', marginTop: 20, fontSize: 22}}>{this.props.auth && this.props.auth.user && this.props.auth.user.name}</Text>
         </View>
       )
     }
@@ -167,8 +178,8 @@ function mapStateToProps({auth}) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    login: (user) => {
-      dispatch(login(user))
+    logout: (user) => {
+      dispatch(logout(user))
     }
   }
 }

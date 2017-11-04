@@ -9,6 +9,7 @@ function auth(state = { isLoggedIn: false }, action) {
         user: action.user
       }
     case 'LOGOUT':
+      AsyncStorage.removeItem('credentials')
       return {
         user: null,
         isLoggedIn: false

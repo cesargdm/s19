@@ -46,6 +46,7 @@ class LoginScreen extends Component {
     this.resetEmail = this.resetEmail.bind(this)
     // this.facebookLogin = this.facebookLogin.bind(this)
     this.logoutFacebook = this.logoutFacebook.bind(this)
+    this.loginFacebook = this.loginFacebook.bind(this)
   }
 
   onChange(name, text) {

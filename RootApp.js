@@ -19,11 +19,12 @@ class RootApp extends Component {
   componentWillMount() {
     AsyncStorage.getItem('credentials')
     .then(userString => {
-      if (!userString) {
-        this.props.logout()
-      }
 
       const user = JSON.parse(userString)
+
+      if (!user) {
+        return this.props.logout()
+      }
 
       console.log('USER', user)
 
