@@ -32,7 +32,8 @@ class LoginScreen extends Component {
       password: '',
       isCreatingAccount: false,
       isWorking: false,
-      isRestoringPassword: false
+      isRestoringPassword: false,
+      emailSignup: false
     }
 
     this.onChange = this.onChange.bind(this)

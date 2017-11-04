@@ -5,20 +5,20 @@ import { TabNavigator, TabBarBottom } from 'react-navigation';
 
 import Colors from '../constants/Colors';
 
-import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import GroupsScreen from '../screens/GroupsScreen';
+import AlertsScreen from '../screens/AlertsScreen';
+import ProfileScreen from '../screens/ProfileScreen';
 
 export default TabNavigator(
   {
-    Home: {
-      screen: HomeScreen,
+    Groups: {
+      screen: GroupsScreen,
     },
-    Links: {
-      screen: LinksScreen,
+    Alerts: {
+      screen: AlertsScreen,
     },
-    Settings: {
-      screen: SettingsScreen,
+    Profile: {
+      screen: ProfileScreen,
     },
   },
   {
@@ -27,16 +27,16 @@ export default TabNavigator(
         const { routeName } = navigation.state;
         let iconName;
         switch (routeName) {
-          case 'Home':
+          case 'Groups':
             iconName =
               Platform.OS === 'ios'
                 ? `ios-information-circle${focused ? '' : '-outline'}`
                 : 'md-information-circle';
             break;
-          case 'Links':
+          case 'Alerts':
             iconName = Platform.OS === 'ios' ? `ios-link${focused ? '' : '-outline'}` : 'md-link';
             break;
-          case 'Settings':
+          case 'Profile':
             iconName =
               Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-options';
         }
