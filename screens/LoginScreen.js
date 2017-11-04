@@ -76,7 +76,7 @@ class LoginScreen extends Component {
 
         //Post user to database specifying uid
         firebase.database().ref('users').child(facebookUser.uid).set(user, () => {
-          // Set action for user logged in
+          // Call action for user logged in
           this.props.login(user)
         })
       })
