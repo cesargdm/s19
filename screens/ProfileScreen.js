@@ -11,10 +11,22 @@ class ProfileScreen extends Component {
         _id: 'profile'
       }]
     }
+
+    this.selectProfilePicture = this.selectProfilePicture.bind(this)
+
   }
 
-  selectProfilePicture() {
-    console.log('PROFILE')
+  async selectProfilePicture() {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+      aspect: [4, 3],
+    })
+
+    console.log(result)
+
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+    }
   }
 
   renderItem({item}) {
@@ -25,7 +37,7 @@ class ProfileScreen extends Component {
           <View style={{width: '100%', height: 130, display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 40}}>
             <TouchableOpacity
               style={{width: 90, height: 90, backgroundColor: '#ccc', borderRadius: 45}}
-              onPress={() => this.selectProfilePicture()}
+              onPress={() => this.selectProfilePicture}
             >
           </TouchableOpacity>
         </View>
